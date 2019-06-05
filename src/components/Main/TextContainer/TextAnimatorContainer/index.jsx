@@ -49,23 +49,32 @@ class TextAnimatorContainer extends React.Component{
     });
 
     textAnimatorObject.onValuesChange(({ show })=>{
-      this.timeline.time = clamp(show, 0, 2000);
+      this.timeline.time = clamp(show, 0, 1000);
     });
   }
   getTexts(){
     const parsedElements = [];
     const textRegExp = /\{(.+?)\}/g;
-    const { children, style } = this.props;
+    const textRegExp1 = /.*\{(.+)/;
+    const { children } = this.props;
     let parsedText;
     while(parsedText = textRegExp.exec(children)){
+      let style = {};
+      parsedText = parsedText[1].trimRight();
+      if(textRegExp1.test(parsedText)){
+        parsedText = parsedText.replace(/[\{\}]/g, '').trimRight();
+        style = {
+          display: 'block',
+        };
+      }
       parsedElements.push(
         <TextAnimator
           style={style}
           timeline={this.timeline}
-          key={parsedText[1].trimRight()}
-          name={parsedText[1].trimRight()}
+          key={parsedText.trim()}
+          name={parsedText.trim().substr(0, 10)}
         >
-          { parsedText[1].trimRight() }
+          { parsedText }
         </TextAnimator>
       );
     }
@@ -74,11 +83,13 @@ class TextAnimatorContainer extends React.Component{
 
   render(){
     const { x, y } = this.state;
+    const { style } = this.props;
     return (
       <div style={{
         left: x,
         top: y,
         position: 'absolute',
+        ...style,
       }}>
         { this.getTexts() }
       </div>

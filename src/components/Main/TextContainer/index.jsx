@@ -7,16 +7,31 @@ function TextContainer({ timeline }){
     <React.Fragment>
       <TextAnimatorContainer
         timelineName="First"
+        style={{
+          top: '50%',
+          left: '10%',
+          transform: 'translateY(-50%)'
+        }}
       >
         { `
-          { salam } { khubi? }
+          { The effect }
+          {{ of }}
+          { having multi-dimensional life }
         ` }
       </TextAnimatorContainer>
       <TextAnimatorContainer
         timelineName="Second"
+        style={{
+          top: '50%',
+          left: '10%',
+          transform: 'translateY(-50%)'
+        }}
       >
         { `
-          { salam } { khubi? }
+          { Let's consider two types of people }
+          {{ Developers }}
+          {{ & }}
+          {{ Artists! }}
         ` }
       </TextAnimatorContainer>
     </React.Fragment>

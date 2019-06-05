@@ -6,6 +6,8 @@ class TextAnimator extends React.PureComponent{
 
   state = {
     opacity: 0,
+    left: 0,
+    top: 0,
   };
 
   componentDidMount(){
@@ -20,22 +22,32 @@ class TextAnimator extends React.PureComponent{
         opacity: {
           type: 'number',
         },
+        left: {
+          type: 'number',
+        },
+        top: {
+          type: 'number',
+        },
       },
     });
 
-    textAnimatorObject.onValuesChange(({ opacity })=>{
+    textAnimatorObject.onValuesChange(({ opacity, left, top })=>{
       this.setState({
         opacity,
+        left,
+        top,
       })
     })
   }
 
   render(){
-    const { opacity } = this.state;
+    const { opacity, left, top } = this.state;
     
     return (
       <Text
         { ...this.props }
+        left={left}
+        top={top}
         opacity={opacity}
       />
     );
