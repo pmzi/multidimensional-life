@@ -23,15 +23,19 @@ class Model extends ThreeObject {
   }
   
   onTextureLoad (texture) {
-    this.material.texture = texture;
+    this.material.map = texture;
+    console.log(texture)
   }
 
   onLoad (object) {
-    this.object = object;
-    this.object.traverse((child) => {
-      if (child.isMesh) child.material = this.material;
-    });
-    this._dispatch('loaded', object);
+    setTimeout(()=>{
+      this.object = object;
+      this.object.traverse((child) => {
+        if (child.isMesh) child.material = this.material;
+      });
+      this.object.position.set(0, 0, 0);
+      this._dispatch('loaded', object);    
+    }, 1000)
   }
 
 }

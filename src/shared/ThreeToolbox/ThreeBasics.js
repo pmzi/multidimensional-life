@@ -12,7 +12,7 @@ class ThreeBasics {
         this.scene = new this.$.Scene()
 
         // Our main camera
-        this.camera = new this.$.PerspectiveCamera(45, 1, 0.1, 1000)
+        this.camera = new this.$.PerspectiveCamera(45, 1, 0.1, 10000)
         this.scene.add(this.camera);
         
         // objects array
@@ -34,7 +34,46 @@ class ThreeBasics {
             // Starting render function
             this.render();
             this.initialized = true;
+
+            this.addMover();
         }
+    }
+
+    addMover(){
+        let isMouseClicked = false;
+        let lastMousePosition = null;
+        document.addEventListener('keypress', (e)=>{
+            if(e.key === 'w'){
+                this.camera.position.z -= 10;
+            } else if(e.key === 's'){
+                this.camera.position.z += 10;
+            } else if(e.key === 'a'){
+                this.camera.position.x -= 10;
+            } else if(e.key === 'd'){
+                this.camera.position.x += 10;
+            } else if(e.keyCode === 32 && e.shiftKey){
+                this.camera.position.y -= 10;
+            } else if(e.keyCode === 32){
+                this.camera.position.y += 10;
+            }
+        });
+        document.addEventListener('mousedown', ({ clientY, clientX })=>{
+            isMouseClicked = true;
+            lastMousePosition = {
+                clientY,
+                clientX,
+            };
+        });
+        document.addEventListener('mouseup', ()=>{
+            isMouseClicked = false;
+            lastMousePosition = null;
+        });
+        document.addEventListener('mousemove', ({clientX, clientY})=>{
+            if(isMouseClicked){
+                this.camera.rotation.x += (lastMousePosition.clientY - clientY) / 10000;
+                this.camera.rotation.y += (lastMousePosition.clientX - clientX) / 10000;
+            }
+        });
     }
 
     append = (obj) => {
